@@ -2,7 +2,7 @@ public class Model {
 
     @Override
     public String toString() {
-        return "Model{" +
+        return "{" +
                 "num='" + num + '\'' +
                 ", id='" + id + '\'' +
                 ", date='" + date + '\'' +
@@ -25,7 +25,6 @@ public class Model {
     public Model(String num, String id, String date, String commonName, String scientificName, String count, String location, String county) {
         this.num = num;
         this.id = id;
-
         this.date = date;
         this.commonName = commonName;
         this.scientificName = scientificName;

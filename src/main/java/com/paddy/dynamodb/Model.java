@@ -1,3 +1,5 @@
+package com.paddy.dynamodb;
+
 public class Model {
 
     @Override

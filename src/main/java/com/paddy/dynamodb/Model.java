@@ -1,12 +1,37 @@
 package com.paddy.dynamodb;
 
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
+@DynamoDBTable(tableName = "birdus")
 public class Model {
+
+
+    @DynamoDBIgnore
+    private String num;
+    @DynamoDBHashKey
+    private String reference;
+    @DynamoDBAttribute
+    private String date;
+    @DynamoDBAttribute
+    private String commonName;
+    @DynamoDBIgnore
+    private String scientificName;
+    @DynamoDBAttribute
+    private String count;
+    @DynamoDBAttribute
+    private String location;
+    @DynamoDBAttribute
+    private String county;
 
     @Override
     public String toString() {
         return "{" +
                 "num='" + num + '\'' +
-                ", id='" + id + '\'' +
+                ", reference='" + reference + '\'' +
                 ", date='" + date + '\'' +
                 ", commonName='" + commonName + '\'' +
                 ", scientificName='" + scientificName + '\'' +
@@ -24,9 +49,9 @@ public class Model {
         this.num = num;
     }
 
-    public Model(String num, String id, String date, String commonName, String scientificName, String count, String location, String county) {
+    public Model(String num, String reference, String date, String commonName, String scientificName, String count, String location, String county) {
         this.num = num;
-        this.id = id;
+        this.reference = reference;
         this.date = date;
         this.commonName = commonName;
         this.scientificName = scientificName;
@@ -35,13 +60,13 @@ public class Model {
         this.county = county;
     }
 
-    public String getId() {
+    public String getReference() {
 
-        return id;
+        return reference;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public String getDate() {
@@ -92,12 +117,5 @@ public class Model {
         this.county = county;
     }
 
-    private String num;
-    private String id;
-    private String date;
-    private String commonName;
-    private String scientificName;
-    private String count;
-    private String location;
-    private String county;
+
 }

@@ -4,7 +4,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.local.embedded.DynamoDBEmbedded;
 import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
 
 import java.util.List;
@@ -15,7 +14,6 @@ public class DynamoClient {
 
     public void setupDynamodb() {
 
-        System.out.println("setupDynamodb");
         dynamodb = AmazonDynamoDBClientBuilder.standard()
                 .withRegion(Regions.EU_WEST_1)
                 .build();
@@ -27,21 +25,6 @@ public class DynamoClient {
         List<String> tableNames = listTablesResult.getTableNames();
 
         tableNames.forEach(System.out::println);
-    }
-
-    public void insert() {
-        AmazonDynamoDB dynamodb = null;
-        try {
-            // Create an in-memory and in-process instance of DynamoDB Local that skips HTTP
-            dynamodb = DynamoDBEmbedded.create().amazonDynamoDB();
-            // use the DynamoDB API with DynamoDBEmbedded
-            dynamodb.listTables();
-        } finally {
-            // Shutdown the thread pools in DynamoDB Local / Embedded
-            if (dynamodb != null) {
-                dynamodb.shutdown();
-            }
-        }
     }
 
 

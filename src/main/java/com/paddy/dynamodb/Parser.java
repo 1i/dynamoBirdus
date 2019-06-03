@@ -18,7 +18,7 @@ public class Parser {
 
 
         URL resource = Parser.class.getClassLoader().getResource("result.html");
-        File localFile = new File(resource.toURI());
+        //File localFile = new File(resource.toURI());
 
 
         //Document document = Jsoup.parse(localFile, "UTF-8");

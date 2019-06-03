@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @DynamoDBTable(tableName = "birdus")
-public class Model {
+public class DynamoModel {
 
 
     @DynamoDBIgnore
@@ -49,7 +49,7 @@ public class Model {
         this.num = num;
     }
 
-    public Model(String num, String reference, String date, String commonName, String scientificName, String count, String location, String county) {
+    public DynamoModel(String num, String reference, String date, String commonName, String scientificName, String count, String location, String county) {
         this.num = num;
         this.reference = reference;
         this.date = date;

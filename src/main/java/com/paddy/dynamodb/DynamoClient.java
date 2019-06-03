@@ -1,17 +1,11 @@
 package com.paddy.dynamodb;
 
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.local.embedded.DynamoDBEmbedded;
-import com.amazonaws.services.dynamodbv2.local.shared.access.AmazonDynamoDBLocal;
-import com.amazonaws.services.dynamodbv2.model.BatchWriteItemRequest;
 import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
-import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 
 import java.util.List;
 
@@ -27,16 +21,15 @@ public class DynamoClient {
                 .build();
     }
 
-    public void listTables(){
+    public void listTables() {
         System.out.println("listTables");
-        //dynamodb.
         ListTablesResult listTablesResult = dynamodb.listTables();
         List<String> tableNames = listTablesResult.getTableNames();
 
         tableNames.forEach(System.out::println);
     }
 
-    public void insert(){
+    public void insert() {
         AmazonDynamoDB dynamodb = null;
         try {
             // Create an in-memory and in-process instance of DynamoDB Local that skips HTTP
@@ -45,20 +38,20 @@ public class DynamoClient {
             dynamodb.listTables();
         } finally {
             // Shutdown the thread pools in DynamoDB Local / Embedded
-            if(dynamodb != null) {
+            if (dynamodb != null) {
                 dynamodb.shutdown();
             }
         }
     }
 
 
-    public void mapper(List<Model> models){
+    public void mapper(List<DynamoModel> dynamoModels) {
         System.out.println("Mapper");
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withRegion(Regions.EU_WEST_1).build();
 
         DynamoDBMapper mapper = new DynamoDBMapper(dynamodb);
 
-        //mapper.save(models.get(1));
-        mapper.batchSave(models);
+        //mapper.save(dynamoModels.get(1));
+        mapper.batchSave(dynamoModels);
     }
 }

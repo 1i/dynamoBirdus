@@ -1,19 +1,11 @@
 package com.paddy.dynamodb;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
-import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,12 +18,10 @@ public class Parser {
 
 
         URL resource = Parser.class.getClassLoader().getResource("result.html");
-        File file = new File(resource.toURI());
-        String todaysDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
-        FileWriter fileWriter = new FileWriter(todaysDate + ".txt");
-        PrintWriter printWriter = new PrintWriter(fileWriter);
+        File localFile = new File(resource.toURI());
 
-        //Document document = Jsoup.parse(file, "UTF-8");
+
+        //Document document = Jsoup.parse(localFile, "UTF-8");
         Document document = Jsoup.connect("http://www.irishbirding.com/birds/web?task=PrintableBasicBirdSightingSearch&offset=0").get();
 
         Elements tableText = document.getElementsByTag("tr");
@@ -50,7 +40,7 @@ public class Parser {
                 String id = result.childNodes().get(3).toString().replaceAll("<(.|\\n)+?>|\n|^\\s*\\r?\\n| &nbsp; ", "");
                 String date = result.childNodes().get(5).toString().replaceAll("<(.|\\n)+?>|\n|^\\s*\\r?\\n| &nbsp; ", "");
                 if (date.equals("Today")) {
-                    date = todaysDate;
+                    date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
                 }
                 String commonName = result.childNodes().get(7).toString().replaceAll("<(.|\\n)+?>|\n|^\\s*\\r?\\n| &nbsp; ", "");
                 String sciName = result.childNodes().get(9).toString().replaceAll("<(.|\\n)+?>|\n|^\\s*\\r?\\n| &nbsp; ", "");
@@ -59,27 +49,24 @@ public class Parser {
                 String county = result.childNodes().get(15).toString().replaceAll("<(.|\\n)+?>|\n|^\\s*\\r?\\n| &nbsp; ", "");
 
 
-                Model model = new Model(num, id, date, commonName, sciName, count, location, county);
-                printWriter.println(model);
-                models.add(model);
+                DynamoModel dynamoModel = new DynamoModel(num, id, date, commonName, sciName, count, location, county);
+                models.add(dynamoModel);
             }
 
         }
-
-        printWriter.close();
-
-
-        System.out.println(models.size());
-
+        //remove the header record
+        models.remove(0);
 
         DynamoClient dynamoClient = new DynamoClient();
 
 
         //dynamoClient.insert();
-        dynamoClient.setupDynamodb();
-        dynamoClient.listTables();
-        models.remove(0);
-        dynamoClient.mapper(models);
+        //dynamoClient.setupDynamodb();
+        //dynamoClient.listTables();
+        //dynamoClient.mapper(models);
+
+        S3Client s3Client = new S3Client();
+        s3Client.upload(models);
     }
 
 }

@@ -31,6 +31,7 @@ phases:
     commands:
       - echo Entered the post_build phase...
       - echo Build completed on `date`
+      - aws lambda update-function-code --function-name birdus-cb --zip-file fileb://~/birdus-1.0-SNAPSHOT.jar --publish
 artifacts:
   files:
     - target/birdus-1.0-SNAPSHOT.jar

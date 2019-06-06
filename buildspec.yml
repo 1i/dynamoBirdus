@@ -6,8 +6,8 @@ env:
 
 phases:
   install:
-  runtime-versions:
-    java: 8
+    runtime-versions:
+      java: 8
     commands:
       - echo Entered the install phase...
       - apt-get update -y

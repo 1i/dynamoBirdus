@@ -9,13 +9,13 @@ Main Table
 
 |partitionKey |Sort Key | other attributes |
 |-------------|---------|------------------|
-|reference    | date    | commonName ;county ;location ;count|
+|reference    | date    | commonName, county, location, count|
 
 Future plans to improve the querying for 
 
 |partitionKey |Sort Key | other attributes |
 |-------------|---------|------------------|
-|date         |location | commonName ;county ;location ;count ; reference|
+|date         |county   | commonName, location, count, reference|
 
 
 

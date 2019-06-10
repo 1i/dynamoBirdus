@@ -7,15 +7,15 @@ Read the daily results from the DynamoDB
 
 Main Table
 
-|partitionKey |Sort Key | other attributes
-|-------------|---------|
-|reference    | date    | commonName ;county ;location ;count
+|partitionKey |Sort Key | other attributes |
+|-------------|---------|------------------|
+|reference    | date    | commonName ;county ;location ;count|
 
 Future plans to improve the querying for 
 
-|partitionKey |Sort Key | other attributes
-|-------------|---------|
-|date         |location | commonName ;county ;location ;count ; reference
+|partitionKey |Sort Key | other attributes |
+|-------------|---------|------------------|
+|date         |location | commonName ;county ;location ;count ; reference|
 
 
 

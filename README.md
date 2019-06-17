@@ -13,15 +13,15 @@ Stores the results of the day into DynamoDB or S3.
 
 Main Table
 
-|partitionKey |Sort Key | other attributes |
-|-------------|---------|------------------|
-|reference    | date    | commonName, county, location, count|
+|Partition Key |Sort Key | other attributes |
+|--------------|---------|------------------|
+|reference     | date    | commonName, county, location, count|
 
 Future plans to improve the querying for 
 
-|partitionKey |Sort Key | other attributes |
-|-------------|---------|------------------|
-|date         |county   | commonName, location, count, reference|
+|Partition Key |Sort Key | other attributes |
+|--------------|---------|------------------|
+|date          |county   | commonName, location, count, reference|
 
 
 

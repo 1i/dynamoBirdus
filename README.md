@@ -2,9 +2,6 @@
 Retrieve bird sightings from a website  
 Parse the records and save into a DynamoDB  
 Read the daily results from the DynamoDB  
-<<<<<<< HEAD
-List them out as an Alexa Skill  
-=======
 
 Done as a project to learn AWS for assoicate developer exam.  
 
@@ -38,4 +35,3 @@ Each set of user sightings is held for verification by an admin as batched by us
 
 ## CodeBuild
 Eh why use this instead of nice old Jenkins..  
->>>>>>> dev

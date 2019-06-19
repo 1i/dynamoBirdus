@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class MyS3Client {
+public class S3Client {
 
 
     public void upload(ArrayList models) {

@@ -23,5 +23,15 @@ Future plans to improve the querying for
 |--------------|---------|------------------|
 |date          |county   | commonName, location, count, reference|
 
+## Api Gateway
+Allow certain users perform CRUD operations onto the DynamoDB.  
 
+## Cloudformation and SAM
+Infrastructure as Code
 
+## Cognito
+Allow anonymous users to submit bird sightings.  
+Each set of user sightings is held for verification by an admin as batched by user.  
+
+## CodeBuild
+Eh why use this instead of nice old Jenkins..  

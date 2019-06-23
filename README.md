@@ -47,6 +47,7 @@ aws cloudformation deploy --template-file generated/output.yaml --stack-name bir
 
 ## Cognito
 Allow anonymous users to submit bird sightings.  
+Use Federated Identities instead of the signup/signin functionality of User Pools.  
 Each set of user sightings is held for verification by an admin as batched by user.  
 
 ## CodeBuild

@@ -5,10 +5,10 @@ Read the daily results from the DynamoDB
 
 Done as a project to learn AWS for associate developer exam.  
 
-## build and deploy
+## How to Build and Deploy
 From parent directory. Build the jar via maven.  
 `mvn clean install`  
-Update the update the Lambda with the new jar.  
+Update existing the Lambda with the new jar.  
 `aws lambda update-function-code --function-name birdus --zip fileb://./target/birdus-1.0-SNAPSHOT.jar`  
 Invoke the Lambda.  
 `aws lambda invoke --function-name birdus --log-type Tail outfile`  

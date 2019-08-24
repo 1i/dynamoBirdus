@@ -19,6 +19,9 @@ public class Parser {
         ArrayList models = new ArrayList();
         System.out.println("Requesting website");
         Document document = null;
+        int todaysCount = 0;
+        int yesterdaysCount = 0;
+
         try {
             URL url = new URL(address);
             if (url.getProtocol().equals("file")) {
@@ -59,10 +62,27 @@ public class Parser {
                     models.add(model);
                 }
 
+               LocalDate yesterday =  LocalDate.now().minusDays(1);
+                String yesterdate = yesterday.format(DateTimeFormatter.ofPattern("dd MMM yy")).toString();
+                if (date.equals("Today")) {
+                    date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
+                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county);
+                    todaysCount++;
+                    models.add(model);
+                }
+
+                if (date.equals(yesterdate)) {
+                    date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
+                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county);
+                    models.add(model);
+                    yesterdaysCount++;
+                }
+
             }
 
         }
-        System.out.println("Today's Record count: " + models.size());
+        System.out.println("Today's Record count: " + todaysCount);
+        System.out.println("Yesterday's Record count: " + yesterdaysCount);
 
         return models;
     }

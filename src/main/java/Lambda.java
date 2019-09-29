@@ -17,8 +17,9 @@ public class Lambda {
 
         if(results.size()>1) {
             DynamoClient dynamoClient = new DynamoClient();
-            dynamoClient.listTables();
             dynamoClient.save(results);
+            S3Client s3Client = new S3Client();
+            s3Client.upload(results);
         }
         System.out.println("Finished");
     }

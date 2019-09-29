@@ -21,16 +21,19 @@ public class Parser {
         Document document = null;
         int todaysCount = 0;
         int yesterdaysCount = 0;
-
-        try {
-            URL url = new URL(address);
-            if (url.getProtocol().equals("file")) {
-                document = Jsoup.parse(new File(url.toURI()), "UTF-8");
-            } else {
-                document = Jsoup.connect(address).userAgent("Mozilla").data("name", "birdus").get();
+        for (int i = 1; i <= 3; i++) {
+            try {
+                URL url = new URL(address);
+                if (url.getProtocol().equals("file")) {
+                    document = Jsoup.parse(new File(url.toURI()), "UTF-8");
+                } else {
+                    document = Jsoup.connect(address).userAgent("Mozilla").data("name", "birdus").get();
+                }
+                break;
+            } catch (IOException | URISyntaxException e) {
+                System.out.println("jsoup Timeout occurred " + i + " time(s)");
+                e.printStackTrace();
             }
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
         }
         if (document == null) {
             return models;
@@ -59,10 +62,11 @@ public class Parser {
                 if (date.equals("Today")) {
                     date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
                     Model model = new Model(num, id, date, commonName, scientificName, count, location, county);
+                    todaysCount++;
                     models.add(model);
                 }
 
-               LocalDate yesterday =  LocalDate.now().minusDays(1);
+                LocalDate yesterday = LocalDate.now().minusDays(1);
                 String yesterdate = yesterday.format(DateTimeFormatter.ofPattern("dd MMM yy")).toString();
                 if (date.equals("Today")) {
                     date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
@@ -71,8 +75,8 @@ public class Parser {
                     models.add(model);
                 }
 
-                if (date.equals(yesterdate)) {
-                    date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
+                if (date.equals("Today")) {
+                    //date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
                     Model model = new Model(num, id, date, commonName, scientificName, count, location, county);
                     models.add(model);
                     yesterdaysCount++;

@@ -10,6 +10,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class Parser {
 
@@ -27,9 +29,25 @@ public class Parser {
                 if (url.getProtocol().equals("file")) {
                     document = Jsoup.parse(new File(url.toURI()), "UTF-8");
                 } else {
-                    document = Jsoup.connect(address).userAgent("Mozilla").data("name", "birdus").get();
+                    CompletableFuture<Document> future = CompletableFuture.supplyAsync(() -> {
+                        try {
+                            return Jsoup.connect(address).userAgent("Mozilla").data("name", "birdus").get();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    });
+                    try {
+                        System.out.println("get document");
+                        document = future.get();
+                        System.out.println("got document");
+                        System.out.println("No# of Nodes : "+document.body().childNodes().size());
+                    } catch (InterruptedException | ExecutionException e) {
+                        System.out.println(e.getLocalizedMessage());
+                    }
+                    //document = Jsoup.connect(address).userAgent("Mozilla").data("name", "birdus").get();
+                    break;
                 }
-                break;
             } catch (IOException | URISyntaxException e) {
                 System.out.println("jsoup Timeout occurred " + i + " time(s)");
                 e.printStackTrace();
@@ -42,6 +60,7 @@ public class Parser {
 
         //todo hardcoded location
         Elements results = tableText.get(4).parent().children();
+        System.out.println("Number of total table results : "+results.size());
 
 
         String htmlRegex = "<(.|\\n)+?>|\n|^\\s*\\r?\\n| &nbsp; ";
@@ -58,10 +77,11 @@ public class Parser {
                 String count = result.childNodes().get(11).toString().replaceAll(htmlRegex, "");
                 String location = result.childNodes().get(13).toString().replaceAll(htmlRegex, "");
                 String county = result.childNodes().get(15).toString().replaceAll(htmlRegex, "");
+                String photo = result.childNodes().get(17).toString().contains("camera_icon.gif") ? "Yes" : "";
 
                 if (date.equals("Today")) {
                     date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
-                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county);
+                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county,photo);
                     todaysCount++;
                     models.add(model);
                 }
@@ -70,14 +90,14 @@ public class Parser {
                 String yesterdate = yesterday.format(DateTimeFormatter.ofPattern("dd MMM yy")).toString();
                 if (date.equals("Today")) {
                     date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
-                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county);
+                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county, photo);
                     todaysCount++;
                     models.add(model);
                 }
 
-                if (date.equals("Today")) {
+                if (date.equals(yesterdate)) {
                     //date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yy"));
-                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county);
+                    Model model = new Model(num, id, date, commonName, scientificName, count, location, county, photo);
                     models.add(model);
                     yesterdaysCount++;
                 }

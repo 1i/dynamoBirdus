@@ -22,8 +22,10 @@ public class Model {
     private String location;
     @DynamoDBAttribute
     private String county;
+    @DynamoDBAttribute
+    private String photo;
 
-    public Model(String resultNumber, String reference, String date, String commonName, String scientificName, String count, String location, String county) {
+    public Model(String resultNumber, String reference, String date, String commonName, String scientificName, String count, String location, String county, String photo) {
         this.resultNumber = resultNumber;
         this.reference = reference;
         this.date = date;
@@ -32,6 +34,7 @@ public class Model {
         this.count = count;
         this.location = location;
         this.county = county;
+        this.photo = photo;
     }
 
     public String getResultNumber() {
@@ -98,6 +101,10 @@ public class Model {
         this.county = county;
     }
 
+    public String getPhoto() {return photo;}
+
+    public void setPhoto(String photo) {this.photo = photo;}
+
     @Override
     public String toString() {
         return "{" +
@@ -109,6 +116,7 @@ public class Model {
                 ", count='" + count + '\'' +
                 ", location='" + location + '\'' +
                 ", county='" + county + '\'' +
+                ", photo='" + photo + '\'' +
                 '}';
     }
 }

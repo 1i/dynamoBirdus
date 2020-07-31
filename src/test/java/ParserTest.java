@@ -15,11 +15,17 @@ public class ParserTest {
 
         URL resource = Parser.class.getClassLoader().getResource("result.html");
 
-        ArrayList result = parser.parse(resource.toString());
+        ArrayList<Model> result = parser.parse(resource.toString());
+        formatD3(result);
 
         Assert.assertEquals(29, result.size());
     }
 
+
+    private void formatD3(ArrayList<Model> results){
+
+
+    }
 
     @Test
     public void remoteHTML() {

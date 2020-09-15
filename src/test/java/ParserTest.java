@@ -41,7 +41,7 @@ public class ParserTest {
     public void dateFormats(){
 
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        String yesterdate = yesterday.format(DateTimeFormatter.ofPattern("dd MMM yy")).toString();
+        String yesterdate = yesterday.format(DateTimeFormatter.ofPattern("dd MMM yy"));
         String september = "28 Sept 19";
 
         LocalDate parse = LocalDate.parse(september);
